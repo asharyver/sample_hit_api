@@ -15,7 +15,7 @@ Class ApiInterface {
 		$this->pel_user = "plg12110004";
 		$this->pel_pass = "aldwin.3";
 		$this->pel_key = "1234";
-		$this->pel_url = "http://180.211.90.243:8118/Transactions/trx.json";
+		$this->pel_url = "http://202.152.60.61:8118/Transactions/trx.json";
 	}
 
 	/*public function generateTrxId($length) {
