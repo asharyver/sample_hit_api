@@ -14,7 +14,7 @@ Class ApiInterface {
 	public function __construct() {
 		$this->pel_user = "plg12110004";
 		$this->pel_pass = "aldwin.3";
-		$this->pel_key = "1234";
+		$this->pel_key = "abcd1234";
 		$this->pel_url = "http://202.152.60.61:8118/Transactions/trx.json";
 	}
 

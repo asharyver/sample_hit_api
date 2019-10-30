@@ -81,7 +81,7 @@ $params['trx_date'] = date("YmdHis");
 $params['trx_id'] = generateTrxId(10);
 $params['trx_type'] = '2100'; // 2100 = Inquiry, 2200 = Payment
 $params['cust_msisdn'] = '';
-$params['cust_account_no'] = '211018741557';
+$params['cust_account_no'] = '534316522301';
 $params['product_id'] = '100';
 $params['product_nomination'] = '';
 $params['periode_payment'] = '';
