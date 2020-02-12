@@ -5,7 +5,7 @@
 date_default_timezone_set("Asia/Jakarta");
 
 Class ApiInterface {
-	
+
 	private $pel_user;
 	private $pel_pass;
 	private $pel_key;
@@ -15,7 +15,7 @@ Class ApiInterface {
 		$this->pel_user = "plg12110004";
 		$this->pel_pass = "aldwin.3";
 		$this->pel_key = "abcd1234";
-		$this->pel_url = "http://202.152.60.61:8118/Transactions/trx.json";
+		$this->pel_url = "http://202.152.61.101:8113/Transactions/trx.json";
 	}
 
 	/*public function generateTrxId($length) {
