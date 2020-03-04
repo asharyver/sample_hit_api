@@ -7,15 +7,17 @@ require_once 'db_operation.php';
  * generate unique trx_id
  *
  */
-function generateTrxId($length) {
-	return substr(str_shuffle("0123456789"), 0, $length);
+function generateTrxId($length)
+{
+    return substr(str_shuffle("0123456789"), 0, $length);
 }
 
 /**
  * pretty print JSON data
  *
  */
-function prettyPrint($json) {
+function prettyPrint($json)
+{
     $result = '';
     $level = 0;
     $in_quotes = false;
@@ -23,7 +25,7 @@ function prettyPrint($json) {
     $ends_line_level = NULL;
     $json_length = strlen($json);
 
-    for ($i = 0; $i < $json_length; $i++ ) {
+    for ($i = 0; $i < $json_length; $i++) {
         $char = $json[$i];
         $new_line_level = NULL;
         $post = "";
@@ -36,15 +38,17 @@ function prettyPrint($json) {
             $in_escape = false;
         } else if ($char === '"') {
             $in_quotes = !$in_quotes;
-        } else if (! $in_quotes) {
-            switch( $char ) {
-                case '}': case ']':
+        } else if (!$in_quotes) {
+            switch ($char) {
+                case '}':
+                case ']':
                     $level--;
                     $ends_line_level = NULL;
                     $new_line_level = $level;
                     break;
 
-                case '{': case '[':
+                case '{':
+                case '[':
                     $level++;
                 case ',':
                     $ends_line_level = $level;
@@ -54,7 +58,10 @@ function prettyPrint($json) {
                     $post = " ";
                     break;
 
-                case " ": case "\t": case "\n": case "\r":
+                case " ":
+                case "\t":
+                case "\n":
+                case "\r":
                     $char = "";
                     $ends_line_level = $new_line_level;
                     $new_line_level = NULL;
@@ -64,9 +71,9 @@ function prettyPrint($json) {
             $in_escape = true;
         }
         if ($new_line_level !== NULL) {
-            $result .= "\n".str_repeat("\t", $new_line_level);
+            $result .= "\n" . str_repeat("\t", $new_line_level);
         }
-        $result .= $char.$post;
+        $result .= $char . $post;
     }
 
     return $result;
@@ -81,26 +88,26 @@ $params['trx_date'] = date("YmdHis");
 $params['trx_id'] = generateTrxId(10);
 $params['trx_type'] = '2100'; // 2100 = Inquiry, 2200 = Payment
 $params['cust_msisdn'] = '';
-$params['cust_account_no'] = '533310188648';
+$params['cust_account_no'] = $_POST['idpel'];
 $params['product_id'] = '100';
 $params['product_nomination'] = '';
 $params['periode_payment'] = '';
 $params['unsold'] = '';
 $input = json_encode($params, true);
 
-echo "<pre>";
-echo "Request :<br />";
-print_r(prettyPrint($input));
-echo "</pre>";
+// echo "<pre>";
+// echo "Request :<br />";
+// print_r(prettyPrint($input));
+// echo "</pre>";
 
 $request_date = date('Y-m-d H:i:s');
 $output = $interface->hitApi($params);
 $response_date = date('Y-m-d H:i:s');
 
-echo "<pre>";
-echo "Response :<br />";
-print_r(prettyPrint($output));
-echo "</pre>";
+// echo "<pre>";
+// echo "Response :<br />";
+// print_r(prettyPrint($output));
+// echo "</pre>";
 
 /**
  * save logs into database
@@ -130,18 +137,48 @@ $data = $parse['data']['trx'];
 $rc = $data['rc'];
 
 
-if ($rc == '0000') {
-	echo "<pre>";
-	echo "Transaction ID -> " . $data['trx_id'] . "<br />";
-	echo "Subscriber ID -> " . $data['subscriber_id'] . "<br />";
-	echo "Subscriber Name -> " . $data['subscriber_name'];
-	echo "</pre>";
-} else {
-	echo "<pre>";
-	echo "Transaction ID -> " . $data['trx_id'] . "<br />";
-	echo "Response Code (RC) -> " . $rc . "<br />";
-	echo "Description -> " . $data['desc'];
-	echo "</pre>";
-}
+// if ($rc == '0000') {
+// 	echo "<pre>";
+// 	echo "Transaction ID -> " . $data['trx_id'] . "<br />";
+// 	echo "Subscriber ID -> " . $data['subscriber_id'] . "<br />";
+// 	echo "Subscriber Name -> " . $data['subscriber_name'];
+// 	echo "</pre>";
+// } else {
+// 	echo "<pre>";
+// 	echo "Transaction ID -> " . $data['trx_id'] . "<br />";
+// 	echo "Response Code (RC) -> " . $rc . "<br />";
+// 	echo "Description -> " . $data['desc'];
+// 	echo "</pre>";
+// }
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil API</title>
+</head>
+
+<body>
+    <form action="index.php" method="get">
+        <div>
+            <label>ID Pelanggan: </label>
+            <span><?php echo $data['subscriber_id']; ?></span>
+        </div>
+        <div>
+            <label>Nama Pelanggan: </label>
+            <span><?php echo $data['subscriber_name']; ?></span>
+        </div>
+        <div>
+            <label>Daya/Golongan: </label>
+            <span><?php echo $data['power']; ?></span>
+        </div>
+        <div>
+            <button type="submit">Kembali</button>
+        </div>
+    </form>
+</body>
+
+</html>
